@@ -62,22 +62,20 @@ async def generate_languages(s: Stats) -> None:
     sorted_languages = sorted(
         (await s.languages).items(), reverse=True, key=lambda t: t[1].get("size")
     )
-    delay_between = 150
     for i, (lang, data) in enumerate(sorted_languages):
         color = data.get("color")
         color = color if color is not None else "#000000"
         progress += (
-            f'<span style="background-color: {color};'
-            f'width: {data.get("prop", 0):0.3f}%;" '
-            f'class="progress-item"></span>'
+            f'<span class="progress-segment" '
+            f'style="background-color: {color}; '
+            f"width: {data.get('prop', 0):0.3f}%; "
+            f'animation-delay: {i * 80}ms;"></span>'
         )
         lang_list += f"""
-<li style="animation-delay: {i * delay_between}ms;">
-<svg xmlns="http://www.w3.org/2000/svg" class="octicon" style="fill:{color};"
-viewBox="0 0 16 16" version="1.1" width="16" height="16"><path
-fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path></svg>
-<span class="lang">{lang}</span>
-<span class="percent">{data.get("prop", 0):0.2f}%</span>
+<li class="lang-item" style="animation-delay: {i * 60}ms;">
+  <span class="lang-dot" style="background-color: {color};"></span>
+  <span class="lang-name">{lang}</span>
+  <span class="lang-pct">{data.get("prop", 0):0.2f}%</span>
 </li>
 
 """
